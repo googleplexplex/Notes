@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Home Page";
+}
+@using Notes.Models
+@using System.Data.Entity;
+
+<style>
+    .wrapDiv {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .wrapDivItem {
+        width: 200px;
+        height: 200px;
+        margin: 2px;
+        background-color: #ffffff;
+    }
+
+        .wrapDivItem p {
+            padding: 0px 10px;
+        }
+
+        .wrapDivItem h4 {
+            padding: 0px 10px;
+        }
+</style>
+
+<div width="100%">
+    <table width="100%" style="height:100%;">
+        <tr>
+            <td width="20px">
+                <h3>Категории</h3>
+            </td>
+            <td>
+                <h3>Заметки</h3>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p><a href="/Home/Index">Ко всем заметкам</a></p>
+                <br>
+                @foreach (var b in (ViewBag.Categories as List<Category>).FindAll(f => f.id > 1))
+                {
+                    <p><a href="/Home/ShowByCategory/@b.id">@b.name</a></p>
+                }
+                <br>
+                <p><a href="/Home/ChangeCategories">Изменить категории</a></p>
+            </td>
+            <td>
+                <div class="wrapDiv">
+                    @foreach (Note b in ViewBag.Notes)
+                    {
+                        <div class="wrapDivItem" style="border-radius: 4px; position: relative">
+                            <h4>@b.title</h4>
+                            <p>@(b.text.Substring(0, Math.Min(b.text.Length, ViewBag.MaxTextLen)) + ((b.text.Length > ViewBag.MaxTextLen) ? ("...") : ("")))</p>
+                            <p style="position: absolute; bottom: 20px; left: 0;"><a href="/Home/ShowByCategory/@b.categoryId">@((ViewBag.Categories as List<Category>).Find(f => f.id == b.categoryId).name)</a></p>
+                            <p style="position: absolute; bottom: 0; left: 0;"><a href="/Home/Open/@b.id">Изменить</a></p>
+                        </div>
+                    }
+                </div>
+            </td>
+        </tr>
+        <tr><td></td></tr>
+    </table>
+
+
+
+</div>

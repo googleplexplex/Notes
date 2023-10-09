@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="height:100%;">
+    <form method="post" action="" style="height:100%;">
+        <input type="hidden" value="@ViewBag.Note.id" name="id" />
+        <input type="hidden" value="@ViewBag.Note.lastEdited" name="lastEdited" />
+        <table width="100%" style="height:100%;">
+            <tr height="58px">
+                <td width="20px">
+                    <input type="submit" value="<-" style="width: 40px; background-color: #ffffff; border-radius: 4px; " />
+
+                </td>
+                <td>
+                    <input class="tittleInput" type="text" value="@ViewBag.Note.title" name="title" maxlength="15" />
+                </td>
+                <td width="100px">
+                    <select name="categoryId">
+                        @foreach (var b in ViewBag.Categories)
+                        {
+                            if (b.id == ViewBag.Note.categoryId)
+                            {
+                                <option value="@b.id" label="@b.name" selected />
+                            }
+                            else
+                            {
+                                <option value="@b.id" label="@b.name" />
+                            }
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <textarea class="tittleInput" type="text" name="text" maxlength="5000">@ViewBag.Note.text</textarea>
+                </td>
+            </tr>
+            <tr><td></td></tr>
+        </table>
+    </form>
+</div>

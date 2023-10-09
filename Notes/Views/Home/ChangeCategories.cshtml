@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "ChangeCategories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Notes.Models
+@using System.Data.Entity;
+
+
+
+
+
+<div style="height:100%;">
+    <form method="post" action="" style="height:100%;">
+        <button value="<-" formaction="Save" style="width: 40px; background-color: #ffffff; border-radius: 4px; ">&lt;-</button>
+        <table width="100%" style="height:100%;">
+            <tr>
+                <td>
+                    <h2>Изменить категории</h2>
+                </td>
+                <td>
+                    <div>
+                        <input type="hidden" value="@ViewBag.emptyCategory.id" name="newCategoriesData[0].id" />
+                        <input type="hidden" value="@ViewBag.emptyCategory.name" name="newCategoriesData[0].name" />
+                        @{int i = 1;}
+                        @foreach (var b in (ViewBag.Categories as DbSet<Category>).Where(f => f.id > 1))
+                        {
+                            <div class="inlineDiv">
+                                <input class="categoryNameInput" type="text" value="@b.name" name="newCategoriesData[@i].name" style="width: 400px; border-radius: 4px; " />
+                                <input type="hidden" value="@b.id" name="newCategoriesData[@i].id" />
+                                <button value="@i" name="deletedCategoryId" formaction="Delete" style="width: 40px; background-color: #ffffff; border-radius: 4px; ">X</button>
+                                @{i++;}
+                            </div>
+                            <p>   </p>
+                        }
+                        <br/>
+                        <div class="inlineDiv">
+                            <input class="categoryNameInput" type="text" placeholder="Имя новой категории..." name="newCategoryName" style="width: 400px; border-radius: 4px;   " />
+                            <button name="action" formaction="Save" style="width: 40px; background-color: #ffffff; border-radius: 4px; ">✔</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr><td></td></tr>
+        </table>
+    </form>
+</div>
