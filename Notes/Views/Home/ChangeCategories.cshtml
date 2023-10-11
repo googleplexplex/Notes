@@ -23,7 +23,7 @@
                         <input type="hidden" value="@ViewBag.emptyCategory.id" name="newCategoriesData[0].id" />
                         <input type="hidden" value="@ViewBag.emptyCategory.name" name="newCategoriesData[0].name" />
                         @{int i = 1;}
-                        @foreach (var b in (ViewBag.Categories as DbSet<Category>).Where(f => f.id > 1))
+                        @foreach (var b in ViewBag.Categories)
                         {
                             <div class="inlineDiv">
                                 <input class="categoryNameInput" type="text" value="@b.name" name="newCategoriesData[@i].name" style="width: 400px; border-radius: 4px; " />

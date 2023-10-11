@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td>
-                @foreach (var b in (ViewBag.Categories as List<Category>).FindAll(f => f.id > 1))
+                @foreach (var b in ViewBag.Categories)
                 {
                 <p><a href="/Home/ShowByCategory/@b.id">@b.name</a></p>
                 }
@@ -49,14 +49,16 @@
             </td>
             <td>
                 <div class="wrapDiv">
+                    @{int i = 0; }
                     @foreach (Note b in ViewBag.Notes)
                     {
                         <div class="wrapDivItem" style="border-radius: 4px; position: relative">
                             <h4>@b.title</h4>
                             <p>@(b.text.Substring(0, Math.Min(b.text.Length, ViewBag.MaxTextLen)) + ((b.text.Length > ViewBag.MaxTextLen) ? ("...") : ("")))</p>
-                            <p style="position: absolute; bottom: 20px; left: 0;"><a href="/Home/ShowByCategory/@b.categoryId">@((ViewBag.Categories as List<Category>).Find(f => f.id == b.categoryId).name)</a></p>
+                            <p style="position: absolute; bottom: 20px; left: 0;"><a href="/Home/ShowByCategory/@b.categoryId">@(ViewBag.NoteCategoryName[i])</a></p>
                             <p style="position: absolute; bottom: 0; left: 0;"><a href="/Home/Open/@b.id">Изменить</a></p>
                         </div>
+                        i++;
                     }
                     <div class="wrapDivItem" align="center" style="border-radius: 4px; position: relative">
                         <p><a href="/Home/Open">Добавить</a></p>

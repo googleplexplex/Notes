@@ -14,11 +14,21 @@ namespace Notes.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<Note> notes = db.Notes;
-            IEnumerable<Category> categories = db.Categories;
+            List<Note> notes = db.Notes.ToList();
+            List<Category> categories = db.Categories.ToList();
+
+            List<string> noteCategoryName = new List<string>();
+            foreach(Note i in db.Notes)
+            {
+                string categoryName = categories.FirstOrDefault(f => f.id == i.categoryId).name;
+                noteCategoryName.Add(categoryName);
+            }
+
+            categories = categories.FindAll(f => f.id > 1);
 
             ViewBag.Notes = notes;
-            ViewBag.Categories = categories.ToList();
+            ViewBag.Categories = categories;
+            ViewBag.NoteCategoryName = noteCategoryName;
             ViewBag.MaxTextLen = 140;
 
             return View();
@@ -68,8 +78,11 @@ namespace Notes.Controllers
         [HttpGet]
         public ActionResult ChangeCategories()
         {
-            ViewBag.Categories = db.Categories;
-            ViewBag.emptyCategory = db.Categories.FirstOrDefault(f => f.id == 1);
+            List<Category> categories = db.Categories.Where(f => f.id > 1).ToList();
+            Category emptyCategory = db.Categories.First(f => f.id == 1);
+
+            ViewBag.Categories = categories;
+            ViewBag.emptyCategory = emptyCategory;
             return View();
         }
 
@@ -133,10 +146,13 @@ namespace Notes.Controllers
         [HttpGet]
         public ActionResult ShowByCategory(int id = 1)
         {
-            IEnumerable<Note> notes = db.Notes.Where(f => f.categoryId == id);
-            IEnumerable<Category> categories = db.Categories;
-            ViewBag.Notes = notes.ToList();
-            ViewBag.Categories = categories.ToList();
+            List<Note> notes = db.Notes.Where(f => f.categoryId == id).ToList();
+            List<Category> categories = db.Categories.Where(f => f.id > 1).ToList();
+            string PresentCategoryName = db.Categories.First(f => f.id == id).name;
+
+            ViewBag.Notes = notes;
+            ViewBag.Categories = categories;
+            ViewBag.PresentCategoryName = PresentCategoryName;
             ViewBag.MaxTextLen = 140;
 
             return View();
